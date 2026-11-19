@@ -37,6 +37,17 @@ git diff HEAD~1 HEAD
 ```
 If the project is not in a git repo or changes are isolated, collect the modified file snippets.
 
+**Mandatory Headroom Compression (>80 lines)**:
+If the diff exceeds 80 lines or 800 tokens, you MUST compress it first via Headroom:
+```python
+call_mcp_tool(
+    ServerName="headroom",
+    ToolName="headroom_compress",
+    Arguments={"content": diff_content}
+)
+```
+Pass the compressed output to Step 2 to preserve context tokens, while keeping the hash for retrieval if deep slicing is required.
+
 ### Step 2: Invoke the Local Model via `execute_local_task`
 Call the MCP tool `execute_local_task` on `tiered-router` with an aggressive inquisitorial prompt:
 
