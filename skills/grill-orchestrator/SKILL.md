@@ -57,13 +57,14 @@ Once the Inquisitor approves (or user overrides in Gate 2), run the local verifi
    - Run `cargo mutants --in-diff` (or on modified modules, e.g. `cargo mutants -F <file>`).
    - If any mutant **survives** ("MISSED"), it proves a blind spot in test coverage. Send the surviving mutant diagnostic to the Inquisitor/Maker to write a killing test case. All mutants in modified code must be killed or explicitly justified.
 
-### Step 5: Final Post-Implementation Grill & Test Coverage (MANDATORY)
+### Step 5: Final Post-Implementation Grill & Merciless Local Audit (MANDATORY)
 Even after initial approval and passing CI, you MUST ALWAYS perform a final adversarial "Grill" pass before requesting commit authorization:
-1. **Adversarial Post-Review**: Mercilessly re-scrutinize the entire implementation and full `git diff` for:
+1. **Merciless Local Audit (0 Cloud Tokens)**: Invoke the local model via `tiered-router:execute_local_task` (or the `merciless-local-audit` skill) with the full `git diff`. The local auditor mercilessly scrutinizes the code for:
    - Non-idiomatic anti-patterns, silent allocations, or unwarranted bypasses (`#[allow(...)]`, `@ts-ignore`).
    - Subtle logic inversions (e.g. mute vs volume, polarity, inverted sensor distance ranges).
    - Concurrency & Queue saturation: dropping critical events (like pointer release or state changes) under heavy load or high-frequency loops.
    - Silent error suppression (`let _ = ...`), unhandled variants, or resource leaks.
+   - Any `[BLOCKING]` defect reported by the local auditor must be corrected before proceeding.
 2. **Mandatory Test Coverage**: Add targeted unit/integration tests explicitly exercising any edge cases or failure modes identified during this final grill.
 3. Re-run CI validation (`cargo fmt --check`, `cargo clippy`, `cargo test`) to ensure everything is strictly green with zero warnings.
 
