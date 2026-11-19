@@ -61,6 +61,8 @@ Once the Inquisitor approves (or user overrides in Gate 2), run the local verifi
 Even after initial approval and passing CI, you MUST ALWAYS perform a final adversarial "Grill" pass before requesting commit authorization:
 1. **Merciless Local Audit (0 Cloud Tokens)**: Invoke the local model via `tiered-router:execute_local_task` (or the `merciless-local-audit` skill) with the full `git diff`. The local auditor mercilessly scrutinizes the code for:
    - Non-idiomatic anti-patterns, silent allocations, or unwarranted bypasses (`#[allow(...)]`, `@ts-ignore`).
+   - File size & modularity hygiene: flag files expanding beyond ~400-500 lines or functions beyond ~50 lines for modular extraction (anti-'god file').
+   - Algorithmic performance & memory efficiency: avoid unintentional O(N^2) loops, unnecessary deep clones, and missing collection pre-allocations.
    - Subtle logic inversions (e.g. mute vs volume, polarity, inverted sensor distance ranges).
    - Concurrency & Queue saturation: dropping critical events (like pointer release or state changes) under heavy load or high-frequency loops.
    - Silent error suppression (`let _ = ...`), unhandled variants, or resource leaks.
