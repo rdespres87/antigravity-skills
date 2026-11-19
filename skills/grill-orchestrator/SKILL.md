@@ -73,11 +73,12 @@ Once all tests pass and the final grill is complete:
 1. **Atomic Commit Slicing**: Ensure changes are sliced into small, logical, self-contained units. **Strict rule**: Never combine a bug fix with a new feature, or merge unrelated features into one commit.
 2. **Compile & CI Bisectability**: Every sliced commit must independently compile and pass CI/tests cleanly.
 3. **Pre-Commit Documentation Sync**: Verify that the project's `README.md` and related docs are updated within the relevant commit to reflect any API, flag, or architectural modification.
-4. **Zero Autonomous Commits**: You are strictly FORBIDDEN from committing or pushing automatically.
+4. **Mandatory Test Protocol & Implementation Report**: Present a detailed report summarizing files modified, local audit verdict (0 tokens), and comprehensive testing instructions (automated test commands + manual step-by-step validation scenarios).
+5. **Zero Autonomous Commits**: You are strictly FORBIDDEN from committing or pushing automatically.
 **CRITICAL PRE-REQUISITE:** Before triggering the `ask_question` tool, you MUST:
 1. Run `git diff` (or `git diff --cached` if files are already staged).
 2. Present the exact `diff` to the user in a markdown code block.
-3. Propose the atomic commit message following conventional commits.
+3. Provide the detailed test protocol and propose the atomic commit message following conventional commits.
 You MUST then use the `ask_question` tool: "The Inquisitor approved, final post-implementation grill is complete, documentation is synced, and CI is green. Do you authorize this atomic commit?"
 Options MUST include: 
 - "Yes, proceed with commit."
