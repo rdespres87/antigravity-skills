@@ -81,12 +81,17 @@ Once all tests pass and the final grill is complete:
 3. Provide the detailed test protocol and propose the atomic commit message following conventional commits.
 You MUST then use the `ask_question` tool: "The Inquisitor approved, final post-implementation grill is complete, documentation is synced, and CI is green. Do you authorize this atomic commit?"
 Options MUST include: 
-- "Yes, proceed with commit."
-- "No, let me review manually."
+- "(Recommended) Yes, proceed with local commit (no push)."
+- "Adjust commit message or scope."
+- "Cancel / make further changes."
 
 ### Step 7: Strict State Updates, Push Authorization & Handoff
 1. If the user authorizes the commit, execute `git commit`.
-2. **Explicit Push Consent**: You are strictly FORBIDDEN from running `git push` autonomously. Ask the user for explicit remote push permission.
+2. **Explicit Push Consent (Dedicated Turn via `ask_question`)**: You are strictly FORBIDDEN from running `git push` autonomously or bundling it with Step 6. In a separate subsequent turn, ask using `ask_question`:
+   - Question: "Local commit recorded. Do you want to push changes to origin/main?"
+   - Options:
+     - "(Recommended) No, keep commit local (preserves CI runner quota)."
+     - "Yes, push to origin/main."
 3. **Mandatory:** Update `docs/agent/SESSION_STATE.md` and `docs/agent/TASKS.md`.
 4. **Mandatory:** Write `docs/agent/HANDOFF.md` containing the next logical action.
 5. Emit the `SESSION_HANDOFF_REQUIRED` signal in your final message to the user.
