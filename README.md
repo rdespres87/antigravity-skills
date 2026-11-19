@@ -13,6 +13,7 @@ A collection of skills for Google Antigravity and AI coding agents.
   5. *Logic & Boundary Conditions* (off-by-one, inverted booleans, empty collections, integer overflow/underflow, NaN handling).
   6. *Error Resilience* (no swallowed errors, clear domain variants, strict `?` propagation).
   7. *Concurrency & State Hazards* (race conditions, deadlocks, queue saturations, dropped events).
+  8. *Mandatory README & Documentation Sync* (strictly blocking: immediately rejects any commit introducing new features, APIs, or rules without accompanying `README.md` updates).
 - **`project-scaffold`**: Automatically scaffolds and initializes new project workspaces with the mandatory Antigravity persistent state architecture (root `AGENTS.md`, `docs/agent/{SESSION_STATE,TASKS,HANDOFF}.md`, and `.gitignore`) before any domain code or business logic is authored.
 
 ## Installation

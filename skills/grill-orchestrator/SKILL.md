@@ -66,6 +66,7 @@ Even after initial approval and passing CI, you MUST ALWAYS perform a final adve
    - Subtle logic inversions (e.g. mute vs volume, polarity, inverted sensor distance ranges).
    - Concurrency & Queue saturation: dropping critical events (like pointer release or state changes) under heavy load or high-frequency loops.
    - Silent error suppression (`let _ = ...`), unhandled variants, or resource leaks.
+   - Mandatory README & documentation sync: if new features, APIs, or rules are introduced without updating `README.md` in the diff, flag as `[BLOCKING]` and reject.
    - Any `[BLOCKING]` defect reported by the local auditor must be corrected before proceeding.
 2. **Mandatory Test Coverage**: Add targeted unit/integration tests explicitly exercising any edge cases or failure modes identified during this final grill.
 3. Re-run CI validation (`cargo fmt --check`, `cargo clippy`, `cargo test`) to ensure everything is strictly green with zero warnings.
