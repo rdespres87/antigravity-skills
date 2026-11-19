@@ -68,20 +68,25 @@ Even after initial approval and passing CI, you MUST ALWAYS perform a final adve
 2. **Mandatory Test Coverage**: Add targeted unit/integration tests explicitly exercising any edge cases or failure modes identified during this final grill.
 3. Re-run CI validation (`cargo fmt --check`, `cargo clippy`, `cargo test`) to ensure everything is strictly green with zero warnings.
 
-### Step 6: SECURITY GATE 3 (Commit Validation)
-Once all tests pass and the final grill is complete, you are strictly FORBIDDEN from committing automatically.
+### Step 6: Atomic Packaging, Documentation & SECURITY GATE 3 (Commit Validation)
+Once all tests pass and the final grill is complete:
+1. **Atomic Commit Slicing**: Ensure changes are sliced into small, logical, self-contained units. **Strict rule**: Never combine a bug fix with a new feature, or merge unrelated features into one commit.
+2. **Compile & CI Bisectability**: Every sliced commit must independently compile and pass CI/tests cleanly.
+3. **Pre-Commit Documentation Sync**: Verify that the project's `README.md` and related docs are updated within the relevant commit to reflect any API, flag, or architectural modification.
+4. **Zero Autonomous Commits**: You are strictly FORBIDDEN from committing or pushing automatically.
 **CRITICAL PRE-REQUISITE:** Before triggering the `ask_question` tool, you MUST:
 1. Run `git diff` (or `git diff --cached` if files are already staged).
 2. Present the exact `diff` to the user in a markdown code block.
-3. Provide a clear, human-readable summary of exactly what changes were made.
-You MUST then use the `ask_question` tool: "The Inquisitor approved, final post-implementation grill is complete, and CI is green. Do you authorize the git commit?"
+3. Propose the atomic commit message following conventional commits.
+You MUST then use the `ask_question` tool: "The Inquisitor approved, final post-implementation grill is complete, documentation is synced, and CI is green. Do you authorize this atomic commit?"
 Options MUST include: 
 - "Yes, proceed with commit."
 - "No, let me review manually."
 
-### Step 7: Strict State Updates & Handoff
+### Step 7: Strict State Updates, Push Authorization & Handoff
 1. If the user authorizes the commit, execute `git commit`.
-2. **Mandatory:** Update `docs/agent/SESSION_STATE.md` and `docs/agent/TASKS.md`.
-3. **Mandatory:** Write `docs/agent/HANDOFF.md` containing the next logical action.
-4. Emit the `SESSION_HANDOFF_REQUIRED` signal in your final message to the user.
+2. **Explicit Push Consent**: You are strictly FORBIDDEN from running `git push` autonomously. Ask the user for explicit remote push permission.
+3. **Mandatory:** Update `docs/agent/SESSION_STATE.md` and `docs/agent/TASKS.md`.
+4. **Mandatory:** Write `docs/agent/HANDOFF.md` containing the next logical action.
+5. Emit the `SESSION_HANDOFF_REQUIRED` signal in your final message to the user.
 5. **Phase Boundary Decision (Context Management):** Remind the user to run `/compact` to purge conversational overhead for the next phase, or `/clear` if switching to an unrelated feature branch.
